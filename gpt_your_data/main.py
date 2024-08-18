@@ -18,7 +18,7 @@ def create(name: str = Body(...), description: str = Body(...)):
     return created_episode
 
 @app.get("/search/")
-def search_pokemons(query: str):
+def search(query: str):
     episode_repo = EpisodeRepository()
     chatgpt_service = ChatGPTService()
     query_vector = episode_repo.extract_vector(episode_description=query)
