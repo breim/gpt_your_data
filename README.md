@@ -3,6 +3,8 @@
 
 The purpose of this project is to demonstrate how to work with your existing database by implementing a semantic search using the FAISS vector database. GPT-Your-Data utilizes FastAPI, SQLAlchemy, FAISS, and OpenAI's GPT model to create and manage a database of Pokémon episodes, incorporating a vector-based semantic search functionality.
 
+[Video](./assets/video.mp4)
+
 ## Key Features
 
 - **Vector Search with FAISS**: Use the FAISS service to index and search Pokémon episodes based on vector representations of episode descriptions.
@@ -55,7 +57,7 @@ This will create the necessary tables in your SQLite database.
 To start the FastAPI application, use:
 
 ```bash
-uvicorn gpt_your_data.main:app --host 0.0.0.0 --port 8001 --reload
+poetry run start
 ```
 
 The application will be available at `http://localhost:8001`.
