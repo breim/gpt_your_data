@@ -34,7 +34,7 @@ def main():
         episode_text = extract_episode_text(episode_number)
 
         if episode_text:
-            print(f"EP{episode_number:03d} extraído com sucesso.")
+            print(f"EP{episode_number:03d} extracted.")
             episode_repo.add_episode(name=str(episode_number), description=episode_text)
 
         time.sleep(1)
