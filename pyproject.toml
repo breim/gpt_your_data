@@ -7,6 +7,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+faiss-cpu = "^1.8.0.post1"
+transformers = "^4.44.0"
+torch = "^2.4.0"
+fastapi = "^0.112.1"
+uvicorn = "^0.30.6"
+sqlalchemy = "^2.0.32"
 
 
 [build-system]
