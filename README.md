@@ -1,34 +1,24 @@
 
 # GPT-Your-Data
 
-**GPT-Your-Data** is a project that uses FastAPI and SQLAlchemy to create and manage a database of episodes, in addition to integrating a vector search service using FAISS. The project is managed with Poetry, which facilitates dependency installation and virtual environment management.
+The purpose of this project is to demonstrate how to work with your existing database by implementing a semantic search using the FAISS vector database. GPT-Your-Data utilizes FastAPI, SQLAlchemy, FAISS, and OpenAI's GPT model to create and manage a database of Pokémon episodes, incorporating a vector-based semantic search functionality.
+
+## Key Features
+
+- **Vector Search with FAISS**: Use the FAISS service to index and search Pokémon episodes based on vector representations of episode descriptions.
+- **GPT Integration**: Generate contextual responses to queries using the GPT model, integrating semantic search results from FAISS.
+- **Web Scraping**: Automatically extract content from Pokémon episodes from online sources and store it in the database.
+- **REST API with FastAPI**: Expose endpoints to create new episodes, search episodes by semantic similarity, and integrate with GPT to generate answers to questions based on episode content.
 
 ## Project Structure
 
-```plaintext
-gpt-your-data/
-├── gpt_your_data/
-│   ├── models/
-│   │   ├── episode.py             # Episode model definition
-│   ├── repositories/
-│   │   ├── episode_repository.py  # Repository for managing episodes
-│   ├── services/
-│   │   ├── faiss_service.py       # FAISS service for vector search
-│   ├── db/
-│   │   ├── base.py                # SQLAlchemy Base definition
-│   │   ├── session.py             # Database configuration and sessionmaker
-│   │   ├── init_db.py             # Script to create tables in the database
-│   ├── main.py                    # FastAPI application entry point
-├── pyproject.toml                 # Poetry configuration
-└── README.md                      # Project documentation
-```
 
 ## Installation
 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/gpt-your-data.git
+   git clone https://github.com/breim/gpt-your-data.git
    cd gpt-your-data
    ```
 
@@ -45,90 +35,56 @@ gpt-your-data/
    ```bash
    poetry shell
    ```
+## Install the data transformers
+```bash
+pip install -U sentence-transformers
+```
 
 ## Database Setup
 
-The project uses SQLite by default. The `session.py` file contains the database configuration:
-
-```python
-# gpt_your_data/db/session.py
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
-DATABASE_URL = "sqlite:///./test.db"
-
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-```
-
-## Creating Tables
-
-To create the tables in the database, run the following command:
+The project uses SQLite by default. The `session.py` file configures the database connection. To initialize the database:
 
 ```bash
-poetry run create-tables
+python -m gpt_your_data.db.init_db
 ```
 
-This command runs the `init_db.py` script, which creates all the tables defined in the SQLAlchemy models.
+This will create the necessary tables in your SQLite database.
 
-## Using the Episode Repository
+## Running the Application
 
-The `EpisodeRepository` manages the persistence and retrieval logic for episodes, as well as integrating with FAISS for vector searches. It is configured to automatically initialize the database session if one is not passed.
-
-Usage example:
-
-```python
-from gpt_your_data.repositories.episode_repository import EpisodeRepository
-
-def main():
-    episode_repo = EpisodeRepository()
-    episode_number = 1
-    episode_text = "Episode description"
-
-    episode_repo.add_episode(name=str(episode_number), description=episode_text)
-    print("Episode added successfully!")
-
-if __name__ == "__main__":
-    main()
-```
-
-## Running the FastAPI Server
-
-To start the FastAPI server, simply run:
+To start the FastAPI application, use:
 
 ```bash
-poetry run start-webserver
+uvicorn gpt_your_data.main:app --host 0.0.0.0 --port 8001 --reload
 ```
 
-The server will be available at `http://127.0.0.1:8000`.
+The application will be available at `http://localhost:8001`.
 
-## Episode Model Structure
+## Using the API
 
-The `Episode` model represents an episode with a name and description. It is defined in `episode.py`:
+### Create an Episode
 
-```python
-# gpt_your_data/models/episode.py
+- **Endpoint**: `POST /episodes/`
+- **Parameters**: 
+  - `name`: The name or identifier of the episode.
+  - `description`: A detailed description of the episode.
 
-from sqlalchemy import Column, Integer, String, Text
-from gpt_your_data.db.base import Base
+### Search Episodes by Semantic Similarity
 
-class Episode(Base):
-    __tablename__ = 'episodes'
+- **Endpoint**: `GET /search/`
+- **Parameters**: 
+  - `query`: A text query to search for similar episodes.
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    description = Column(Text, nullable=False)
+## Web Scraping
+
+The project includes a web scraping script to extract Pokémon episode content:
+
+```bash
+python -m gpt_your_data.scripts.scrape_episodes
 ```
 
-## FAISS Integration
-
-The project uses FAISS for efficient vector searches. The FAISS service is managed by the `FaissService` class, which can be found in `faiss_service.py`. The `EpisodeRepository` uses this service to index episode descriptions and perform vector searches.
-
-## Contributing
-
-Feel free to submit PRs and report issues. This project is a work in progress, and any contributions are welcome!
+This script will fetch and store the content of the episodes in the database.
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
