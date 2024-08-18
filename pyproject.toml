@@ -13,8 +13,16 @@ torch = "^2.4.0"
 fastapi = "^0.112.1"
 uvicorn = "^0.30.6"
 sqlalchemy = "^2.0.32"
+beautifulsoup4 = "^4.12.3"
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "gpt_your_data.main:start"
+crawl-data = "gpt_your_data.scripts.crawl_data:main"
+create-tables = "gpt_your_data.config.migrations.create_episodes_migration:create_tables"

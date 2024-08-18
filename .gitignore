@@ -1,0 +1,6 @@
+db.faiss.npy
+index.faiss
+test.db
+.DS_Store
+__pycache__/
+.env
