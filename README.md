@@ -3,10 +3,12 @@
 
 The purpose of this project is to demonstrate how to work with your existing database by implementing a semantic search using the FAISS vector database. GPT-Your-Data utilizes FastAPI, SQLAlchemy, FAISS, and OpenAI's GPT model to create and manage a database of Pokémon episodes, incorporating a vector-based semantic search functionality.
 
+[Please take a look at my article on Medium about this project.](https://breim.medium.com/how-to-integrate-chatgpt-with-your-own-data-7c94c56dac21)
+
 ![Rag Example](./assets/rag_example.png)[^1]
 [^1]: Image source: [Advanced RAG Techniques](https://pub.towardsai.net/advanced-rag-techniques-an-illustrated-overview-04d193d8fec6)
 
-
+|
 ## Key Features
 
 - **Vector Search with FAISS**: Use the FAISS service to index and search Pokémon episodes based on vector representations of episode descriptions.
